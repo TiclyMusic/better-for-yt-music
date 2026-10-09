@@ -61,3 +61,12 @@ YouTube Music and YouTube route their colors through `--yt-sys-color-baseline--*
 YTM's compiled button styles and YouTube's newer hashed tokens (`--t4a6…`) are handled explicitly; see the comments in each `theme.css`.
 
 Each feature is scoped to an attribute on `<html>` (`data-bytm-theme`, `data-bytm-minimal`, …), so turning a setting off removes it instantly.
+
+## Download
+
+Get the latest build from the [Releases page](https://github.com/TiclyMusic/better-for-yt-music/releases/latest). Unzip it, open `chrome://extensions`, enable Developer mode and use **Load unpacked**.
+
+## Other extensions
+
+- [Better for YouTube](https://github.com/TiclyMusic/better-for-youtube)
+- [Better for Spotify](https://github.com/TiclyMusic/better-for-spotify)
