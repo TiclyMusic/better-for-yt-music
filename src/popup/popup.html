@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Better for YouTube Music</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wdth,wght,ROND@6..144,25..151,1..1000,0..100&display=swap"
+    />
+    <link rel="stylesheet" href="../shared/m3-tokens.css" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <svg class="hero-shape" viewBox="-50 -50 100 100" aria-hidden="true">
+        <path id="hero-cookie" />
+        <circle class="hero-note-ring" r="17.3" stroke-width="3.6" />
+        <path class="hero-note" d="M-5 -8 9.7 0 -5 8z" stroke="#fff" stroke-width="2.4" stroke-linejoin="round" />
+      </svg>
+      <div class="hero-text">
+        <h1>Better for YouTube&nbsp;Music</h1>
+        <p id="hero-sub">Material 3 Expressive for YouTube Music</p>
+      </div>
+    </header>
+
+    <section class="palette" aria-label="Current palette">
+      <div class="swatches">
+        <span style="background: var(--md-primary)"></span>
+        <span style="background: var(--md-secondary)"></span>
+        <span style="background: var(--md-tertiary)"></span>
+        <span style="background: var(--md-primary-container)"></span>
+        <span style="background: var(--md-secondary-container)"></span>
+      </div>
+      <p id="palette-label">Palette follows the album art</p>
+    </section>
+
+    <main id="groups"></main>
+
+    <footer>
+      <button id="open-ytm" class="btn-filled" type="button">Open YouTube Music</button>
+      <p class="fine">Changes apply instantly — no reload needed.</p>
+    </footer>
+
+    <script src="../shared/settings.js"></script>
+    <script src="groups.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

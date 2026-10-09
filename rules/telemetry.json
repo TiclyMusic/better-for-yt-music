@@ -1,0 +1,96 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||music.youtube.com/youtubei/v1/log_event",
+      "resourceTypes": ["xmlhttprequest", "ping", "other"]
+    }
+  },
+  {
+    "id": 2,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||music.youtube.com/api/stats/qoe",
+      "resourceTypes": ["xmlhttprequest", "ping", "image", "other"]
+    }
+  },
+  {
+    "id": 3,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||music.youtube.com/api/stats/atr",
+      "resourceTypes": ["xmlhttprequest", "ping", "image", "other"]
+    }
+  },
+  {
+    "id": 4,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||music.youtube.com/ptracking",
+      "resourceTypes": ["xmlhttprequest", "ping", "image", "other"]
+    }
+  },
+  {
+    "id": 5,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||youtube.com/csi_204",
+      "initiatorDomains": ["music.youtube.com"],
+      "resourceTypes": ["xmlhttprequest", "ping", "image", "other"]
+    }
+  },
+  {
+    "id": 6,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||play.google.com/log",
+      "initiatorDomains": ["music.youtube.com"],
+      "resourceTypes": ["xmlhttprequest", "ping", "image", "other"]
+    }
+  },
+  {
+    "id": 7,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||googleads.g.doubleclick.net^",
+      "initiatorDomains": ["music.youtube.com"],
+      "resourceTypes": ["xmlhttprequest", "ping", "image", "script", "sub_frame", "other"]
+    }
+  },
+  {
+    "id": 8,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||static.doubleclick.net^",
+      "initiatorDomains": ["music.youtube.com"],
+      "resourceTypes": ["xmlhttprequest", "ping", "image", "script", "sub_frame", "other"]
+    }
+  },
+  {
+    "id": 9,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||music.youtube.com/api/stats/ads",
+      "resourceTypes": ["xmlhttprequest", "ping", "image", "other"]
+    }
+  },
+  {
+    "id": 10,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||music.youtube.com/pagead/",
+      "resourceTypes": ["xmlhttprequest", "ping", "image", "script", "other"]
+    }
+  }
+]

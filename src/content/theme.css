@@ -1,0 +1,1491 @@
+/* ==========================================================================
+   Better YT Music — Material 3 Expressive theme for music.youtube.com
+   Everything is scoped to attributes on <html> that main.js toggles, so each
+   feature can be switched off live from the popup.
+   ========================================================================== */
+
+/* Design tokens (--md-*) live in src/shared/m3-tokens.css, loaded first. */
+
+
+/* No cross-fade on --bytm-hue/--bytm-chroma: animating a registered property
+   on :root restyles every element on the page for every frame of the
+   transition — a visible hitch on each track change. The palette snaps. */
+
+/* ---------------------------------------------------------------------------
+   2. Map YouTube Music's design tokens onto the M3 roles.
+   Doubled attribute beats YTM's `html[color-version][dark]` selectors.
+   --------------------------------------------------------------------------- */
+:root[data-bytm-theme][data-bytm-theme],
+:root[data-bytm-theme] [dark][dark] {
+  --yt-sys-color-baseline--base-background: var(--md-surface);
+  --yt-sys-color-baseline--raised-background: var(--md-surface-container);
+  --yt-sys-color-baseline--menu-background: var(--md-surface-container-high);
+  --yt-sys-color-baseline--inverted-background: var(--md-primary);
+  --yt-sys-color-baseline--inverted-background-hover: color-mix(in oklab, var(--md-primary), var(--md-on-primary) 10%);
+  --yt-sys-color-baseline--additive-background: color-mix(in oklab, var(--md-on-surface) 9%, transparent);
+  --yt-sys-color-baseline--outline: var(--md-outline-variant);
+  --yt-sys-color-baseline--outline-opaque: var(--md-outline-variant);
+  --yt-sys-color-baseline--text-primary: var(--md-on-surface);
+  --yt-sys-color-baseline--text-primary-inverse: var(--md-on-primary);
+  --yt-sys-color-baseline--text-secondary: var(--md-on-surface-variant);
+  --yt-sys-color-baseline--text-disabled: color-mix(in oklab, var(--md-on-surface) 38%, transparent);
+  --yt-sys-color-baseline--call-to-action: var(--md-primary);
+  --yt-sys-color-baseline--call-to-action-hover: color-mix(in oklab, var(--md-primary), white 15%);
+  --yt-sys-color-baseline--call-to-action-inverse: var(--md-primary);
+  --yt-sys-color-baseline--suggested-action: var(--md-secondary-container);
+  --yt-sys-color-baseline--suggested-action-hover: color-mix(in oklab, var(--md-secondary-container), var(--md-on-secondary-container) 8%);
+  --yt-sys-color-baseline--touch-response: var(--md-on-surface);
+  --yt-sys-color-baseline--static-brand-red: var(--md-primary);
+  --yt-sys-color-baseline--static-magenta: var(--md-tertiary);
+  --yt-sys-color-baseline--red-indicator: var(--md-primary);
+  --yt-sys-color-baseline--error-indicator: var(--md-error);
+  --yt-sys-color-baseline--themed-green: var(--md-tertiary);
+  --yt-sys-color-baseline--mono-tonal-hover: color-mix(in oklab, var(--md-on-surface) 16%, transparent);
+  --yt-sys-color-baseline--button-chip-background-hover: color-mix(in oklab, var(--md-on-surface) 14%, transparent);
+  --yt-sys-color-baseline--tonal-background: var(--md-secondary-container);
+  --yt-sys-color-baseline--frosted-glass-desktop: color-mix(in oklab, var(--md-surface) 85%, transparent);
+  --yt-sys-color-baseline--overlay-call-to-action: var(--md-primary);
+  --yt-sys-color-baseline--scrim-background-gradient-1: color-mix(in oklab, var(--md-surface) 0%, transparent);
+  --yt-sys-color-baseline--scrim-background-gradient-2: color-mix(in oklab, var(--md-surface) 30%, transparent);
+  --yt-sys-color-baseline--scrim-background-gradient-3: color-mix(in oklab, var(--md-surface) 60%, transparent);
+  --yt-sys-color-baseline--scrim-background-gradient-4: color-mix(in oklab, var(--md-surface) 90%, transparent);
+  --yt-sys-color-baseline--scrim-background-gradient-5: var(--md-surface);
+
+  --ytmusic-general-background-a: var(--md-surface-container-low);
+  --ytmusic-color-black1: var(--md-surface-container);
+  --ytmusic-color-black2: var(--md-surface-container-low);
+  --ytmusic-color-black4: var(--md-surface);
+  --ytmusic-player-page-background: var(--md-surface);
+  --ytmusic-player-bar-background: var(--md-surface-container-high);
+  --ytmusic-play-pause-button-background: var(--md-primary);
+  --ytmusic-setting-item-toggle-active: var(--md-primary);
+  --ytmusic-brand-link-text: var(--md-primary);
+  --ytmusic-themed-blue: var(--md-primary);
+  --ytmusic-search-border: transparent;
+
+  /* Legacy Polymer player bar sliders */
+  --paper-slider-active-color: var(--md-primary);
+  --paper-slider-knob-color: var(--md-primary);
+  --paper-slider-knob-start-color: var(--md-primary);
+  --paper-slider-knob-start-border-color: var(--md-primary);
+  --paper-slider-secondary-color: color-mix(in oklab, var(--md-primary) 35%, transparent);
+  --paper-slider-container-color: var(--md-secondary-container);
+  --paper-progress-active-color: var(--md-primary);
+  --paper-progress-container-color: var(--md-secondary-container);
+  --paper-spinner-color: var(--md-primary);
+
+  color-scheme: dark;
+  accent-color: var(--md-primary);
+}
+
+:root[data-bytm-theme]:not(.inactive-player) {
+  --ytmusic-player-bar-height: 100px;
+}
+
+/* Older components read YTM's raw palette directly; remap all of it. */
+:root[data-bytm-theme][data-bytm-theme] {
+  --ytmusic-color-white1: var(--md-on-surface);
+  --ytmusic-color-white1-alpha10: color-mix(in oklab, var(--md-on-surface) 10%, transparent);
+  --ytmusic-color-white1-alpha15: color-mix(in oklab, var(--md-on-surface) 15%, transparent);
+  --ytmusic-color-white1-alpha20: color-mix(in oklab, var(--md-on-surface) 20%, transparent);
+  --ytmusic-color-white1-alpha25: color-mix(in oklab, var(--md-on-surface) 25%, transparent);
+  --ytmusic-color-white1-alpha30: color-mix(in oklab, var(--md-on-surface) 30%, transparent);
+  --ytmusic-color-white1-alpha50: color-mix(in oklab, var(--md-on-surface) 50%, transparent);
+  --ytmusic-color-white1-alpha70: var(--md-on-surface-variant);
+  --ytmusic-color-white1-alpha95: var(--md-on-surface);
+  --ytmusic-color-white-opacity-0-05: color-mix(in oklab, var(--md-on-surface) 5%, transparent);
+  --ytmusic-color-white-opacity-0-5: color-mix(in oklab, var(--md-on-surface) 50%, transparent);
+  --ytmusic-color-grey2: var(--md-on-surface-variant);
+  --ytmusic-color-grey3: var(--md-outline);
+  --ytmusic-color-grey4: var(--md-outline);
+  --ytmusic-color-grey5: var(--md-outline-variant);
+  --ytmusic-color-grey-4: var(--md-on-surface-variant);
+  --ytmusic-white-5: var(--md-outline-variant);
+  --ytmusic-opalescence-dark-grey: var(--md-surface-container-highest);
+  --ytmusic-color-lightblue: var(--md-primary);
+  --ytmusic-color-blue-1: var(--md-primary);
+  --ytmusic-color-lightred: var(--md-primary);
+  --ytmusic-color-mediumred: var(--md-primary);
+  --ytmusic-color-navyblue: var(--md-surface-container-high);
+  --ytmusic-color-lightgreen: var(--md-tertiary);
+  --ytmusic-color-lightteal: var(--md-tertiary);
+  --ytmusic-overlay-text-primary: var(--md-on-surface);
+  --ytmusic-overlay-text-secondary: var(--md-on-surface-variant);
+  --ytmusic-overlay-button-primary: color-mix(in oklab, var(--md-on-surface) 30%, transparent);
+  --ytmusic-overlay-background-brand: var(--md-primary-container);
+  --ytmusic-inactive-tab: var(--md-on-surface-variant);
+  --ytmusic-badge-chip-background: var(--md-surface-container-highest);
+  --ytmusic-ten-percent-layer: color-mix(in oklab, var(--md-on-surface) 10%, transparent);
+  --yt-endpoint-hover-color: var(--md-on-surface);
+}
+
+/* ---------------------------------------------------------------------------
+   3. Typography — Google Sans Flex with rounded, emphasized display styles.
+   --------------------------------------------------------------------------- */
+:root[data-bytm-type][data-bytm-type] {
+  --ytmusic-standard-text-font-family: "Google Sans Flex", "Google Sans", Roboto, "Noto Naskh Arabic UI", Arial, sans-serif;
+  --ytmusic-display-text-font-family: "Google Sans Flex", "Google Sans", "YouTube Sans", Roboto, sans-serif;
+}
+html[data-bytm-type] body,
+html[data-bytm-type] ytmusic-app,
+html[data-bytm-type] input,
+html[data-bytm-type] button,
+html[data-bytm-type] .ytMusicMiniPlayerTimeInfo {
+  font-family: var(--ytmusic-standard-text-font-family) !important;
+}
+/* Rounded, heavier display type for headers (M3 Expressive "emphasized"). */
+html[data-bytm-type] :is(
+  ytmusic-carousel-shelf-basic-header-renderer .title,
+  ytmusic-shelf-renderer h2,
+  ytmusic-responsive-header-renderer h1,
+  ytmusic-immersive-header-renderer h1,
+  ytmusic-detail-header-renderer h2,
+  ytmusic-editable-playlist-detail-header-renderer h2,
+  ytmusic-tastebuilder-renderer h1,
+  .ytmusicTrackInfoTitle,
+  ytmusic-player-bar .title
+) {
+  font-variation-settings: "ROND" 100, "opsz" 36;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+html[data-bytm-type] :is(ytmusic-responsive-header-renderer h1, ytmusic-immersive-header-renderer h1) {
+  font-weight: 800;
+  font-variation-settings: "ROND" 100, "opsz" 96, "wdth" 110;
+  letter-spacing: -0.025em;
+}
+html[data-bytm-type] ytmusic-carousel-shelf-basic-header-renderer .title {
+  font-size: 2.6rem;
+}
+
+/* ---------------------------------------------------------------------------
+   4. Global surfaces
+   --------------------------------------------------------------------------- */
+html[data-bytm-theme],
+html[data-bytm-theme] body,
+html[data-bytm-theme] ytmusic-app,
+html[data-bytm-theme] #nav-bar-background,
+html[data-bytm-theme] #mini-guide-background {
+  background: var(--md-surface) !important;
+}
+html[data-bytm-theme] #nav-bar-divider {
+  display: none !important;
+}
+/* Page navigation progress (thin bar under the nav) */
+html[data-bytm-theme] yt-page-navigation-progress #progress {
+  background: var(--md-primary) !important;
+  border-radius: 0 var(--md-shape-full) var(--md-shape-full) 0;
+}
+html[data-bytm-theme] ytmusic-nav-bar,
+html[data-bytm-theme] #nav-bar-background {
+  backdrop-filter: none !important;
+  border: 0 !important;
+}
+html[data-bytm-theme] ::selection {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+html[data-bytm-theme] :focus-visible {
+  outline: 3px solid var(--md-primary) !important;
+  outline-offset: 2px;
+}
+
+/* Scrollbars: slim M3 pills */
+html[data-bytm-theme] ::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+  background: transparent !important;
+}
+html[data-bytm-theme] ::-webkit-scrollbar-thumb {
+  background: var(--md-outline-variant) !important;
+  border: 3px solid transparent !important;
+  border-radius: var(--md-shape-full) !important;
+  background-clip: padding-box !important;
+}
+html[data-bytm-theme] ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--md-outline) !important;
+}
+html[data-bytm-theme] ::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+/* ---------------------------------------------------------------------------
+   5. Search — M3 search bar (full pill, container-high)
+   --------------------------------------------------------------------------- */
+html[data-bytm-theme] ytmusic-search-box .search-box {
+  background: var(--md-surface-container-high) !important;
+  border: 0 !important;
+  border-radius: var(--md-shape-full) !important;
+  min-height: 48px;
+  transition: border-radius var(--md-spring-default-dur) var(--md-spring-default),
+    background-color var(--md-effects-dur) var(--md-effects);
+}
+html[data-bytm-theme] ytmusic-search-box .search-box:hover {
+  background: var(--md-surface-container-highest) !important;
+}
+html[data-bytm-theme] ytmusic-search-box[opened] .search-box,
+html[data-bytm-theme] ytmusic-search-box[has-query] .search-box {
+  border-radius: var(--md-shape-xl) var(--md-shape-xl) 0 0 !important;
+}
+html[data-bytm-theme] ytmusic-search-box #suggestion-list {
+  background: var(--md-surface-container-high) !important;
+  border: 0 !important;
+  border-radius: 0 0 var(--md-shape-xl) var(--md-shape-xl) !important;
+  overflow: hidden;
+}
+html[data-bytm-theme] ytmusic-search-box input::placeholder,
+html[data-bytm-theme] ytmusic-search-box #placeholder {
+  color: var(--md-on-surface-variant) !important;
+}
+
+/* ---------------------------------------------------------------------------
+   6. Navigation drawer / rail
+   --------------------------------------------------------------------------- */
+html[data-bytm-theme] tp-yt-app-drawer#guide #contentContainer,
+html[data-bytm-theme] ytmusic-guide-renderer {
+  background: var(--md-surface) !important;
+  border: 0 !important;
+}
+html[data-bytm-theme] :is(#guide-wrapper, #mini-guide-background, #mini-guide) {
+  border: 0 !important;
+}
+/* "Sign in" -> M3 filled button */
+html[data-bytm-theme] ytmusic-nav-bar a.sign-in-link {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 20px !important;
+  border-radius: var(--md-shape-full) !important;
+  background: var(--md-primary) !important;
+  color: var(--md-on-primary) !important;
+  font-weight: 600;
+  transition: border-radius var(--md-spring-fast-dur) var(--md-spring-fast), background-color var(--md-effects-dur) var(--md-effects);
+}
+html[data-bytm-theme] ytmusic-nav-bar a.sign-in-link:hover {
+  background: color-mix(in oklab, var(--md-primary), var(--md-on-primary) 8%) !important;
+}
+html[data-bytm-theme] ytmusic-nav-bar a.sign-in-link:active {
+  border-radius: var(--md-shape-md) !important;
+}
+html[data-bytm-theme] ytmusic-guide-entry-renderer tp-yt-paper-item {
+  border-radius: var(--md-shape-full) !important;
+  transition: background-color var(--md-effects-dur) var(--md-effects),
+    border-radius var(--md-spring-fast-dur) var(--md-spring-fast);
+}
+html[data-bytm-theme] ytmusic-guide-entry-renderer:not([active]) tp-yt-paper-item:hover {
+  background: color-mix(in oklab, var(--md-on-surface) calc(var(--md-hover) * 100%), transparent) !important;
+}
+html[data-bytm-theme] ytmusic-guide-entry-renderer tp-yt-paper-item:active {
+  border-radius: var(--md-shape-md) !important;
+}
+html[data-bytm-theme] ytmusic-guide-entry-renderer :is(.title, .subtitle) {
+  color: var(--md-on-surface-variant) !important;
+}
+html[data-bytm-theme] ytmusic-guide-entry-renderer :is(yt-icon, .guide-icon) {
+  color: var(--md-on-surface-variant) !important;
+  fill: currentColor !important;
+}
+html[data-bytm-theme] ytmusic-guide-entry-renderer[active] tp-yt-paper-item {
+  background: var(--md-secondary-container) !important;
+  color: var(--md-on-secondary-container) !important;
+}
+html[data-bytm-theme] ytmusic-guide-entry-renderer[active] :is(.title, yt-icon, .guide-icon) {
+  color: var(--md-on-secondary-container) !important;
+  fill: var(--md-on-secondary-container) !important;
+}
+html[data-bytm-theme] ytmusic-guide-entry-renderer[active] .title {
+  font-weight: 700 !important;
+}
+html[data-bytm-theme] ytmusic-guide-section-renderer #divider {
+  border-color: var(--md-outline-variant) !important;
+}
+
+/* ---------------------------------------------------------------------------
+   7. Buttons — pills that morph toward rounded squares when pressed
+   --------------------------------------------------------------------------- */
+html[data-bytm-theme] :is(.ytSpecButtonShapeNextHost, .yt-spec-button-shape-next) {
+  border-radius: var(--md-shape-full) !important;
+  transition:
+    border-radius var(--md-spring-fast-dur) var(--md-spring-fast),
+    background-color var(--md-effects-dur) var(--md-effects),
+    transform var(--md-spring-fast-dur) var(--md-spring-fast) !important;
+}
+html[data-bytm-theme] :is(.ytSpecButtonShapeNextHost, .yt-spec-button-shape-next):active {
+  border-radius: var(--md-shape-md) !important;
+}
+html[data-bytm-theme] :is(.ytSpecButtonShapeNextHost, .yt-spec-button-shape-next):is(
+  .ytSpecButtonShapeNextFilled, .yt-spec-button-shape-next--filled
+):is(.ytSpecButtonShapeNextMono, .yt-spec-button-shape-next--mono, .ytSpecButtonShapeNextCallToAction, .yt-spec-button-shape-next--call-to-action) {
+  background: var(--md-primary) !important;
+  color: var(--md-on-primary) !important;
+}
+html[data-bytm-theme] :is(.ytSpecButtonShapeNextHost, .yt-spec-button-shape-next):is(
+  .ytSpecButtonShapeNextTonal, .yt-spec-button-shape-next--tonal
+):not(.ytSpecButtonShapeNextOverlay, .yt-spec-button-shape-next--overlay) {
+  background: var(--md-secondary-container) !important;
+  color: var(--md-on-secondary-container) !important;
+}
+html[data-bytm-theme] :is(.ytSpecButtonShapeNextHost, .yt-spec-button-shape-next):is(
+  .ytSpecButtonShapeNextOutline, .yt-spec-button-shape-next--outline
+) {
+  border-color: var(--md-outline-variant) !important;
+  color: var(--md-primary) !important;
+}
+html[data-bytm-theme] :is(.ytSpecTouchFeedbackShapeFill, .yt-spec-touch-feedback-shape__fill) {
+  border-radius: inherit !important;
+}
+/* Every remaining variant/state (YTM compiles these to fixed rgb values).
+   :where() keeps them weaker than specific rules like the play button. */
+html[data-bytm-theme] :where(.ytSpecButtonShapeNextHost.ytSpecButtonShapeNextText) {
+  color: var(--md-on-surface-variant) !important;
+}
+html[data-bytm-theme] :where(.ytSpecButtonShapeNextHost.ytSpecButtonShapeNextText):hover {
+  background: color-mix(in oklab, var(--md-on-surface) 8%, transparent) !important;
+  color: var(--md-on-surface) !important;
+}
+html[data-bytm-theme] :where(.ytSpecButtonShapeNextHost:is(.ytSpecButtonShapeNextText, .ytSpecButtonShapeNextOutline)):active {
+  background: color-mix(in oklab, var(--md-on-surface) 12%, transparent) !important;
+}
+html[data-bytm-theme] :where(.ytSpecButtonShapeNextHost.ytSpecButtonShapeNextOutline):hover {
+  background: color-mix(in oklab, var(--md-primary) 8%, transparent) !important;
+}
+html[data-bytm-theme] :where(.ytSpecButtonShapeNextHost.ytSpecButtonShapeNextTonal:not(.ytSpecButtonShapeNextOverlay)):is(:hover, :active) {
+  background: color-mix(in oklab, var(--md-secondary-container), var(--md-on-secondary-container) 10%) !important;
+}
+html[data-bytm-theme] :where(.ytSpecButtonShapeNextHost.ytSpecButtonShapeNextTonal.ytSpecButtonShapeNextOverlay) {
+  background: color-mix(in oklab, var(--md-on-surface) 10%, transparent) !important;
+  color: var(--md-on-surface) !important;
+}
+html[data-bytm-theme] :where(.ytSpecButtonShapeNextHost.ytSpecButtonShapeNextFilled):is(:hover, :active) {
+  background: color-mix(in oklab, var(--md-primary), var(--md-on-primary) 10%) !important;
+}
+html[data-bytm-theme] :where(.ytSpecButtonShapeNextHost.ytSpecButtonShapeNextFocused) {
+  border-color: var(--md-primary) !important;
+}
+html[data-bytm-theme] :where(.ytSpecButtonShapeNextHost.ytSpecButtonShapeNextDisabled, .ytSpecButtonShapeNextHost[disabled]) {
+  background: color-mix(in oklab, var(--md-on-surface) 12%, transparent) !important;
+  color: color-mix(in oklab, var(--md-on-surface) 38%, transparent) !important;
+}
+/* Classic Polymer icon buttons (nav, player bar, cards) */
+html[data-bytm-theme] :where(yt-icon-button, tp-yt-paper-icon-button) {
+  color: var(--md-on-surface-variant);
+  border-radius: var(--md-shape-full);
+}
+html[data-bytm-theme] :where(yt-icon-button, tp-yt-paper-icon-button):hover {
+  color: var(--md-on-surface);
+}
+html[data-bytm-theme] yt-interaction .fill {
+  background: var(--md-on-surface) !important;
+}
+
+/* ---------------------------------------------------------------------------
+   8. Chips
+   --------------------------------------------------------------------------- */
+html[data-bytm-theme] ytmusic-chip-cloud-chip-renderer a {
+  background: transparent !important;
+  border: 1px solid var(--md-outline-variant) !important;
+  border-radius: var(--md-shape-sm) !important;
+  color: var(--md-on-surface-variant) !important;
+  transition:
+    border-radius var(--md-spring-fast-dur) var(--md-spring-fast),
+    background-color var(--md-effects-dur) var(--md-effects),
+    border-color var(--md-effects-dur) var(--md-effects) !important;
+}
+html[data-bytm-theme] ytmusic-chip-cloud-chip-renderer a:hover {
+  background: color-mix(in oklab, var(--md-on-surface) calc(var(--md-hover) * 100%), transparent) !important;
+  border-radius: var(--md-shape-lg) !important;
+}
+html[data-bytm-theme] :is(
+  ytmusic-chip-cloud-chip-renderer[is-selected],
+  ytmusic-chip-cloud-chip-renderer[chip-style="STYLE_PRIMARY"],
+  ytmusic-chip-cloud-chip-renderer[aria-selected="true"]
+) a {
+  background: var(--md-secondary-container) !important;
+  border-color: transparent !important;
+  border-radius: var(--md-shape-lg) !important;
+  color: var(--md-on-secondary-container) !important;
+}
+html[data-bytm-theme] ytmusic-chip-cloud-chip-renderer .gradient-box {
+  background: none !important;
+}
+
+/* ---------------------------------------------------------------------------
+   9. Cards, thumbnails, rows
+   --------------------------------------------------------------------------- */
+html[data-bytm-theme] ytmusic-two-row-item-renderer:not([aspect-ratio*="CIRCLE"]) .image-wrapper,
+html[data-bytm-theme] ytmusic-two-row-item-renderer:not([aspect-ratio*="CIRCLE"]) .image-wrapper :is(ytmusic-thumbnail-renderer, yt-img-shadow, img, ytmusic-item-thumbnail-overlay-renderer, ytmusic-background-overlay-renderer) {
+  border-radius: var(--md-shape-lg-inc) !important;
+}
+html[data-bytm-theme] ytmusic-two-row-item-renderer .image-wrapper {
+  overflow: hidden;
+  transition:
+    border-radius var(--md-spring-default-dur) var(--md-spring-default),
+    transform var(--md-spring-default-dur) var(--md-spring-default) !important;
+}
+html[data-bytm-theme] ytmusic-two-row-item-renderer:not([aspect-ratio*="CIRCLE"]):hover .image-wrapper {
+  border-radius: var(--md-shape-xl-inc) !important;
+}
+html[data-bytm-theme] ytmusic-two-row-item-renderer:hover .image-wrapper {
+  transform: scale(1.03);
+}
+html[data-bytm-theme] ytmusic-two-row-item-renderer:active .image-wrapper {
+  transform: scale(0.97);
+}
+
+/* Play buttons on thumbnails: primary-colored, squish on press. */
+html[data-bytm-theme] ytmusic-play-button-renderer {
+  --ytmusic-play-button-icon-color: var(--md-on-primary);
+  --ytmusic-play-button-background-color: var(--md-primary);
+  --ytmusic-play-button-active-background-color: var(--md-primary);
+  --ytmusic-play-button-icon-active-color: var(--md-on-primary);
+}
+html[data-bytm-theme] :is(ytmusic-two-row-item-renderer, ytmusic-immersive-header-renderer) ytmusic-play-button-renderer {
+  border-radius: var(--md-shape-full);
+  transition: border-radius var(--md-spring-fast-dur) var(--md-spring-fast), transform var(--md-spring-fast-dur) var(--md-spring-fast);
+}
+html[data-bytm-theme] :is(ytmusic-two-row-item-renderer, ytmusic-immersive-header-renderer) ytmusic-play-button-renderer:active {
+  border-radius: var(--md-shape-md);
+  transform: scale(0.94);
+}
+
+/* List rows */
+html[data-bytm-theme] ytmusic-responsive-list-item-renderer {
+  border-radius: var(--md-shape-lg);
+  border-bottom-color: transparent !important;
+  transition: background-color var(--md-effects-dur) var(--md-effects);
+}
+html[data-bytm-theme] ytmusic-responsive-list-item-renderer:hover {
+  background: color-mix(in oklab, var(--md-on-surface) 6%, transparent) !important;
+}
+html[data-bytm-theme] ytmusic-responsive-list-item-renderer .left-items,
+html[data-bytm-theme] ytmusic-responsive-list-item-renderer .left-items :is(ytmusic-thumbnail-renderer, yt-img-shadow, img, ytmusic-item-thumbnail-overlay-renderer) {
+  border-radius: var(--md-shape-md) !important;
+}
+html[data-bytm-theme] ytmusic-responsive-list-item-renderer[play-button-state="playing"],
+html[data-bytm-theme] ytmusic-responsive-list-item-renderer[play-button-state="paused"] {
+  background: var(--md-secondary-container) !important;
+}
+
+/* Text and icons everywhere: titles on-surface, links inherit, icons follow
+   their text color. (Beats YTM's `.title.<component>` rules on specificity.) */
+html[data-bytm-theme] yt-formatted-string:is(.title, .song-title, .primary-text) {
+  color: var(--md-on-surface);
+}
+/* Links read var(--yt-endpoint-color), which YTM hard-codes to #fff on
+   ancestors; make it follow the (themed) text they sit in. */
+html[data-bytm-theme] yt-formatted-string {
+  --yt-endpoint-color: currentColor !important;
+  --yt-endpoint-hover-color: currentColor !important;
+  --yt-endpoint-visited-color: currentColor !important;
+}
+/* Menu item labels and icons */
+html[data-bytm-theme] :is(ytmusic-menu-navigation-item-renderer, ytmusic-menu-service-item-renderer, ytmusic-toggle-menu-service-item-renderer, ytmusic-menu-service-item-download-renderer) :is(.text, yt-formatted-string) {
+  color: var(--md-on-surface) !important;
+}
+html[data-bytm-theme] :is(ytmusic-menu-navigation-item-renderer, ytmusic-menu-service-item-renderer, ytmusic-toggle-menu-service-item-renderer, ytmusic-menu-service-item-download-renderer) yt-icon {
+  color: var(--md-on-surface-variant) !important;
+}
+/* Carousel arrows */
+html[data-bytm-theme] yt-icon-button.ytmusic-carousel-shelf-renderer {
+  color: var(--md-on-surface-variant) !important;
+}
+html[data-bytm-theme] yt-icon-button.ytmusic-carousel-shelf-renderer[disabled] {
+  color: color-mix(in oklab, var(--md-on-surface) 38%, transparent) !important;
+}
+html[data-bytm-theme] ytmusic-message-renderer :is(.text, .subtext) {
+  color: var(--md-on-surface-variant) !important;
+}
+html[data-bytm-theme] ytmusic-message-renderer .text {
+  color: var(--md-on-surface) !important;
+}
+/* YTM icons use var(--icon-color, currentcolor): they follow their container. */
+html[data-bytm-theme] yt-icon :is(svg, path) {
+  fill: currentColor !important;
+}
+
+/* Round play buttons (thumbnail overlays, headers): primary, squish on press. */
+html[data-bytm-theme] ytmusic-play-button-renderer .content-wrapper {
+  background: var(--md-primary) !important;
+  border-radius: var(--md-shape-full);
+  transition: border-radius var(--md-spring-fast-dur) var(--md-spring-fast), transform var(--md-spring-fast-dur) var(--md-spring-fast);
+}
+html[data-bytm-theme] ytmusic-play-button-renderer:active .content-wrapper {
+  border-radius: var(--md-shape-md);
+  transform: scale(0.92);
+}
+html[data-bytm-theme] ytmusic-play-button-renderer :is(.icon, yt-icon) {
+  color: var(--md-on-primary) !important;
+}
+html[data-bytm-theme] ytmusic-play-button-renderer {
+  background: transparent !important;
+}
+
+/* Explore: mood & genre buttons as tonal M3 cards (keep the category stripe). */
+html[data-bytm-theme] button.ytmusic-navigation-button-renderer {
+  background: var(--md-surface-container-high) !important;
+  border-top: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 0 !important;
+  border-left-width: 6px !important;
+  border-radius: var(--md-shape-lg) !important;
+  color: var(--md-on-surface) !important;
+  transition: background-color var(--md-effects-dur) var(--md-effects), border-radius var(--md-spring-fast-dur) var(--md-spring-fast);
+}
+html[data-bytm-theme] button.ytmusic-navigation-button-renderer:hover {
+  background: var(--md-surface-container-highest) !important;
+}
+html[data-bytm-theme] button.ytmusic-navigation-button-renderer:active {
+  border-radius: var(--md-shape-xl) !important;
+}
+html[data-bytm-theme] ytmusic-navigation-button-renderer yt-formatted-string {
+  color: var(--md-on-surface) !important;
+}
+
+/* Album / playlist / artist header actions */
+html[data-bytm-theme] ytmusic-responsive-header-renderer :is(ytmusic-toggle-button-renderer, ytmusic-menu-renderer, yt-button-renderer:not(:has(.ytSpecButtonShapeNextFilled))) {
+  background: var(--md-secondary-container) !important;
+  color: var(--md-on-secondary-container) !important;
+  border-radius: var(--md-shape-full) !important;
+}
+html[data-bytm-theme] ytmusic-responsive-header-renderer ytmusic-play-button-renderer .content-wrapper {
+  border-radius: var(--md-shape-lg);
+}
+html[data-bytm-theme] ytmusic-responsive-header-renderer .title {
+  color: var(--md-on-surface) !important;
+}
+html[data-bytm-theme] ytmusic-immersive-header-renderer .content-container-wrapper {
+  background: linear-gradient(transparent, color-mix(in oklab, var(--md-surface) 85%, transparent)) !important;
+}
+html[data-bytm-theme] ytmusic-immersive-header-renderer .title {
+  color: var(--md-on-surface) !important;
+}
+
+/* Page headers (albums, playlists, artists) */
+html[data-bytm-theme] :is(ytmusic-responsive-header-renderer, ytmusic-detail-header-renderer) :is(ytmusic-thumbnail-renderer, yt-img-shadow, img) {
+  border-radius: var(--md-shape-xl) !important;
+}
+
+/* ---------------------------------------------------------------------------
+   10. Menus, dialogs, toasts, tooltips
+   --------------------------------------------------------------------------- */
+html[data-bytm-theme] :is(ytmusic-menu-popup-renderer, ytmusic-multi-page-menu-renderer, tp-yt-paper-listbox) {
+  background: var(--md-surface-container-high) !important;
+  border: 0 !important;
+  border-radius: var(--md-shape-lg) !important;
+  padding: 4px !important;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.35) !important;
+}
+html[data-bytm-theme] tp-yt-iron-dropdown #contentWrapper > * {
+  border-radius: var(--md-shape-lg) !important;
+}
+html[data-bytm-theme] :is(ytmusic-menu-navigation-item-renderer, ytmusic-menu-service-item-renderer, ytmusic-toggle-menu-service-item-renderer, ytmusic-menu-service-item-download-renderer) {
+  border-radius: var(--md-shape-md) !important;
+  overflow: hidden;
+}
+html[data-bytm-theme] :is(ytmusic-menu-navigation-item-renderer, ytmusic-menu-service-item-renderer, ytmusic-toggle-menu-service-item-renderer, ytmusic-menu-service-item-download-renderer):hover,
+html[data-bytm-theme] :is(ytmusic-menu-navigation-item-renderer, ytmusic-menu-service-item-renderer, ytmusic-toggle-menu-service-item-renderer) :is(a, tp-yt-paper-item):hover {
+  background: color-mix(in oklab, var(--md-on-surface) calc(var(--md-hover) * 100%), transparent) !important;
+}
+html[data-bytm-theme] :is(ytmusic-menu-navigation-item-renderer, ytmusic-menu-service-item-renderer, ytmusic-toggle-menu-service-item-renderer, ytmusic-menu-service-item-download-renderer) :is(.text, yt-formatted-string, yt-icon) {
+  color: var(--md-on-surface) !important;
+}
+html[data-bytm-theme] tp-yt-paper-dialog {
+  background: var(--md-surface-container-high) !important;
+  border-radius: var(--md-shape-xl) !important;
+  border: 0 !important;
+  box-shadow: 0 8px 32px rgb(0 0 0 / 0.45) !important;
+  overflow: hidden;
+}
+html[data-bytm-theme] tp-yt-iron-overlay-backdrop {
+  background: var(--md-scrim) !important;
+}
+html[data-bytm-theme] :is(tp-yt-paper-toast, #toast, yt-notification-action-renderer) {
+  background: var(--md-inverse-surface) !important;
+  color: var(--md-inverse-on-surface) !important;
+  border-radius: var(--md-shape-md) !important;
+}
+html[data-bytm-theme] tp-yt-paper-tooltip #tooltip {
+  background: var(--md-inverse-surface) !important;
+  color: var(--md-inverse-on-surface) !important;
+  border-radius: var(--md-shape-sm) !important;
+  font-weight: 500;
+}
+
+/* ---------------------------------------------------------------------------
+   11. Player bar — new "wiz" miniplayer becomes a floating M3 card
+   --------------------------------------------------------------------------- */
+html[data-bytm-theme] ytmusic-app-layout > ytmusic-miniplayer {
+  width: calc(100% - 24px) !important;
+  margin: 0 12px 12px !important;
+  height: 88px !important;
+  padding-top: 12px !important;
+  border-radius: var(--md-shape-xl) !important;
+  background: var(--md-surface-container-high) !important;
+  box-shadow: 0 6px 24px rgb(0 0 0 / 0.35);
+  overflow: visible;
+}
+html[data-bytm-theme] ytmusic-app-layout > ytmusic-miniplayer .ytMusicMiniPlayerLeftSection {
+  padding-inline-start: 12px;
+}
+html[data-bytm-theme] #player-bar-background {
+  background: transparent !important;
+}
+html[data-bytm-theme] ytmusic-miniplayer .ytmusicTrackInfoThumbnail {
+  border-radius: var(--md-shape-md) !important;
+}
+html[data-bytm-theme] ytmusic-miniplayer .ytMusicMiniPlayerTimeInfo {
+  color: var(--md-on-surface-variant) !important;
+  font-variant-numeric: tabular-nums;
+}
+html[data-bytm-theme] ytmusic-miniplayer .ytmusicTrackInfoTitle {
+  color: var(--md-on-surface) !important;
+}
+/* Progress bar sits inside the card */
+html[data-bytm-theme] ytmusic-app-layout > ytmusic-miniplayer .ytMusicMiniPlayerProgressBarWrapper {
+  top: 4px !important;
+  left: 24px !important;
+  width: calc(100% - 48px) !important;
+  transform: none !important;
+}
+html[data-bytm-theme] .ytMusicMiniPlayerProgressBar::-webkit-slider-thumb {
+  background-color: var(--md-primary) !important;
+}
+
+/* Transport controls */
+html[data-bytm-theme] .ytmusicPlayerControlsControlButton button {
+  color: var(--md-on-surface-variant) !important;
+}
+html[data-bytm-theme] .ytmusicPlayerControlsControlButton button[aria-pressed="true"] {
+  color: var(--md-primary) !important;
+  background: color-mix(in oklab, var(--md-primary) 14%, transparent) !important;
+}
+/* Play/pause: big primary button, circle when paused, squircle when playing */
+html[data-bytm-theme] .ytmusicPlayerControlsPlayPauseButton button,
+html[data-bytm-theme] ytmusic-player-bar #play-pause-button {
+  background: var(--md-primary) !important;
+  color: var(--md-on-primary) !important;
+  --iron-icon-fill-color: var(--md-on-primary);
+  fill: var(--md-on-primary);
+  width: 56px !important;
+  height: 48px !important;
+  border-radius: var(--md-shape-full) !important;
+  margin-inline: 6px;
+  transition:
+    border-radius var(--md-spring-default-dur) var(--md-spring-default),
+    width var(--md-spring-default-dur) var(--md-spring-default),
+    transform var(--md-spring-fast-dur) var(--md-spring-fast) !important;
+}
+html[data-bytm-theme][data-bytm-playing] .ytmusicPlayerControlsPlayPauseButton button,
+html[data-bytm-theme][data-bytm-playing] ytmusic-player-bar #play-pause-button {
+  border-radius: var(--md-shape-lg) !important;
+  width: 64px !important;
+}
+html[data-bytm-theme] .ytmusicPlayerControlsPlayPauseButton button:active,
+html[data-bytm-theme] ytmusic-player-bar #play-pause-button:active {
+  transform: scale(0.92);
+  border-radius: var(--md-shape-md) !important;
+}
+/* Center the icon with flex: YTM leaves it inline, on the text baseline, so
+   with some fonts/line-heights it slid down-right and got clipped. */
+html[data-bytm-theme] ytmusic-player-bar #play-pause-button > #button,
+html[data-bytm-theme] .ytmusicPlayerControlsPlayPauseButton button {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0 !important;
+  line-height: 0 !important;
+}
+html[data-bytm-theme] .ytmusicPlayerControlsPlayPauseButton button {
+  width: 56px !important;
+  height: 48px !important;
+}
+html[data-bytm-theme][data-bytm-playing] .ytmusicPlayerControlsPlayPauseButton button {
+  width: 64px !important;
+}
+html[data-bytm-theme] ytmusic-player-bar #play-pause-button yt-icon,
+html[data-bytm-theme] .ytmusicPlayerControlsPlayPauseButton button :is(yt-icon, .ytIconWrapperHost) {
+  flex: none;
+  width: 36px !important;
+  height: 36px !important;
+  margin: 0 !important;
+  position: static !important;
+}
+html[data-bytm-theme] ytmusic-player-bar #play-pause-button yt-icon :is(span, div, svg) {
+  width: 100% !important;
+  height: 100% !important;
+}
+html[data-bytm-theme] .ytmusicPlayerControlsPlayPauseButton button :is(svg, path, .ytIconWrapperHost) {
+  fill: var(--md-on-primary) !important;
+  color: var(--md-on-primary) !important;
+}
+
+/* Volume popup */
+html[data-bytm-theme] .ytMusicMiniPlayerVolumePopup {
+  background: var(--md-surface-container-highest) !important;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.35) !important;
+}
+html[data-bytm-theme] .ytMusicMiniPlayerVolumePopup input[type="range"] {
+  accent-color: var(--md-primary);
+}
+
+/* Legacy player bar: the same floating 28px card as the new miniplayer. */
+html[data-bytm-theme] ytmusic-player-bar:not([player-fullscreened]) {
+  --ytmusic-player-bar-height: 88px;
+  left: 12px !important;
+  right: auto !important;
+  bottom: 12px !important;
+  width: calc(100% - 24px) !important;
+  height: 88px !important;
+  border-radius: var(--md-shape-xl) !important;
+  box-shadow: 0 6px 24px rgb(0 0 0 / 0.35);
+}
+html[data-bytm-theme] ytmusic-player-bar {
+  background: var(--md-surface-container-high) !important;
+}
+html[data-bytm-theme] ytmusic-player-bar:not([player-fullscreened]) #progress-bar {
+  top: 3px !important;
+  left: 28px !important;
+  width: calc(100% - 56px) !important;
+}
+html[data-bytm-theme] ytmusic-player-bar:not([player-fullscreened]) #left-controls {
+  padding-inline-start: 12px;
+}
+html[data-bytm-theme] ytmusic-player-bar .time-info {
+  color: var(--md-on-surface-variant) !important;
+  font-variant-numeric: tabular-nums;
+}
+html[data-bytm-theme] ytmusic-player-bar .title {
+  color: var(--md-on-surface) !important;
+}
+html[data-bytm-theme] ytmusic-player-bar :is(.byline, .subtitle) {
+  color: var(--md-on-surface-variant) !important;
+}
+/* In fullscreen the bar is transparent over the backdrop — give it a surface. */
+html[data-bytm-theme] ytmusic-player-bar[player-fullscreened] {
+  background: color-mix(in oklab, var(--md-surface-container-high) 88%, transparent) !important;
+}
+html[data-bytm-theme] ytmusic-player-bar .image {
+  border-radius: var(--md-shape-md) !important;
+}
+html[data-bytm-theme] ytmusic-player-bar :is(.left-controls-buttons, .right-controls-buttons) tp-yt-paper-icon-button:not(#play-pause-button) {
+  color: var(--md-on-surface-variant) !important;
+}
+/* Classic volume slider -> M3 slider (pill track, primary fill, round knob) */
+html[data-bytm-theme] ytmusic-player-bar #volume-slider {
+  --paper-slider-active-color: var(--md-primary);
+  --paper-slider-knob-color: var(--md-primary);
+  --paper-slider-container-color: var(--md-secondary-container);
+  --paper-progress-active-color: var(--md-primary);
+  --paper-progress-container-color: var(--md-secondary-container);
+}
+html[data-bytm-theme] ytmusic-player-bar #volume-slider #progressContainer {
+  background: var(--md-secondary-container) !important;
+  border-radius: var(--md-shape-full);
+}
+html[data-bytm-theme] ytmusic-player-bar #volume-slider #primaryProgress {
+  background: var(--md-primary) !important;
+  border-radius: var(--md-shape-full);
+}
+html[data-bytm-theme] ytmusic-player-bar #volume-slider .slider-knob-inner {
+  background: var(--md-primary) !important;
+  border-color: var(--md-primary) !important;
+}
+html[data-bytm-theme] ytmusic-player-page ytmusic-player#player {
+  background: var(--md-surface-container-lowest) !important;
+}
+
+/* ---------------------------------------------------------------------------
+   12. Player page
+   --------------------------------------------------------------------------- */
+html[data-bytm-theme] ytmusic-player-page {
+  background: var(--md-surface) !important;
+}
+html[data-bytm-theme] ytmusic-player-page ytmusic-player#player {
+  border-radius: var(--md-shape-xl) !important;
+  overflow: hidden;
+  transition: transform var(--md-spring-default-dur) var(--md-spring-default), border-radius var(--md-spring-default-dur) var(--md-spring-default);
+  box-shadow: 0 12px 40px rgb(0 0 0 / 0.4);
+}
+html[data-bytm-theme] ytmusic-player-page:not([player-fullscreened]) ytmusic-player#player :is(#song-image, #song-image img, #song-video) {
+  border-radius: inherit !important;
+}
+/* The artwork "settles back" when paused — expressive but subtle. */
+html[data-bytm-theme]:not([data-bytm-playing]) ytmusic-player-page:not([player-fullscreened]) ytmusic-player#player {
+  transform: scale(0.95);
+  border-radius: var(--md-shape-xxl) !important;
+}
+html[data-bytm-theme] ytmusic-player-page[player-fullscreened] ytmusic-player#player {
+  border-radius: 0 !important;
+  transform: none !important;
+  box-shadow: none;
+}
+
+/* Side panel (Up next / Lyrics / Related) as a container */
+html[data-bytm-theme] ytmusic-player-page #side-panel {
+  background: color-mix(in oklab, var(--md-surface-container-low) 82%, transparent) !important;
+  border-radius: var(--md-shape-xl) !important;
+  padding: 8px 8px 0 !important;
+  overflow: hidden;
+}
+html[data-bytm-theme] ytmusic-player-page tp-yt-paper-tabs {
+  --paper-tabs-selection-bar-color: transparent;
+  background: var(--md-surface-container-high) !important;
+  border-radius: var(--md-shape-full) !important;
+  padding: 4px;
+  height: 48px !important;
+  box-sizing: border-box;
+  border: 0 !important;
+  margin-top: 0 !important;
+}
+html[data-bytm-theme] ytmusic-player-page tp-yt-paper-tabs #selectionBar {
+  display: none !important;
+}
+html[data-bytm-theme] ytmusic-player-page tp-yt-paper-tab {
+  border-radius: var(--md-shape-full) !important;
+  min-height: 40px;
+  color: var(--md-on-surface-variant) !important;
+  transition: background-color var(--md-effects-dur) var(--md-effects), color var(--md-effects-dur) var(--md-effects);
+}
+html[data-bytm-theme] ytmusic-player-page tp-yt-paper-tab[aria-selected="true"] {
+  background: var(--md-secondary-container) !important;
+  color: var(--md-on-secondary-container) !important;
+  font-weight: 700;
+}
+html[data-bytm-theme] ytmusic-player-page tp-yt-paper-tab .tab-content {
+  opacity: 1 !important;
+}
+
+/* Queue */
+html[data-bytm-theme] ytmusic-player-queue-item {
+  border-radius: var(--md-shape-lg) !important;
+  border: 0 !important;
+  transition: background-color var(--md-effects-dur) var(--md-effects), border-radius var(--md-spring-fast-dur) var(--md-spring-fast);
+}
+html[data-bytm-theme] ytmusic-player-queue-item:hover {
+  background: color-mix(in oklab, var(--md-on-surface) 6%, transparent) !important;
+}
+html[data-bytm-theme] ytmusic-player-queue-item[selected] {
+  background: var(--md-secondary-container) !important;
+  border-radius: var(--md-shape-xl) !important;
+}
+html[data-bytm-theme] ytmusic-player-queue-item[selected] :is(.song-title, .byline, .duration) {
+  color: var(--md-on-secondary-container) !important;
+}
+html[data-bytm-theme] ytmusic-player-queue-item .thumbnail,
+html[data-bytm-theme] ytmusic-player-queue-item .thumbnail img {
+  border-radius: var(--md-shape-md) !important;
+}
+
+/* Song / Video toggle -> M3 connected button group */
+html[data-bytm-theme] ytmusic-av-toggle .av-toggle {
+  background: var(--md-surface-container-high) !important;
+  border-radius: var(--md-shape-full) !important;
+  padding: 4px;
+  gap: 2px;
+}
+html[data-bytm-theme] ytmusic-av-toggle button {
+  border-radius: var(--md-shape-full) !important;
+  background: transparent !important;
+  color: var(--md-on-surface-variant) !important;
+  font-weight: 600;
+  transition: background-color var(--md-effects-dur) var(--md-effects), border-radius var(--md-spring-fast-dur) var(--md-spring-fast);
+}
+html[data-bytm-theme] ytmusic-av-toggle[is-audio-playback-mode-selected="true"] .song-button,
+html[data-bytm-theme] ytmusic-av-toggle[is-video-playback-mode-selected="true"] .video-button {
+  background: var(--md-secondary-container) !important;
+  color: var(--md-on-secondary-container) !important;
+}
+
+/* Lyrics */
+html[data-bytm-theme] ytmusic-description-shelf-renderer .description {
+  font-size: 2rem !important;
+  line-height: 1.5 !important;
+  font-weight: 600;
+  color: var(--md-on-surface) !important;
+}
+
+/* ---------------------------------------------------------------------------
+   13. Ambient backdrop: blurred artwork behind the player page
+   --------------------------------------------------------------------------- */
+html[data-bytm-ambient] ytmusic-player-page {
+  isolation: isolate;
+}
+html[data-bytm-ambient] ytmusic-player-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  /* A 20px pre-blurred image (color.js) stretched with bilinear filtering:
+     looks like a huge blur, costs nothing to composite. */
+  background-image: var(--bytm-backdrop, none);
+  background-size: 100% 100%;
+  opacity: 0.42;
+  pointer-events: none;
+}
+html[data-bytm-ambient] ytmusic-player-page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(120% 90% at 30% 20%, transparent 0%, var(--md-surface) 85%);
+  pointer-events: none;
+}
+html[data-bytm-ambient] ytmusic-player-page[player-fullscreened]::before,
+html[data-bytm-ambient] ytmusic-player-page[player-fullscreened]::after {
+  display: none;
+}
+
+/* ---------------------------------------------------------------------------
+   14. Wavy progress
+   --------------------------------------------------------------------------- */
+html[data-bytm-wavy] .ytMusicMiniPlayerProgressBarWrapper {
+  padding: 0 !important;
+  height: 22px;
+}
+html[data-bytm-wavy] input.ytMusicMiniPlayerProgressBar {
+  position: relative;
+  z-index: 1;
+  height: 22px !important;
+  background: transparent !important;
+}
+html[data-bytm-wavy] input.ytMusicMiniPlayerProgressBar::-webkit-slider-thumb {
+  opacity: 0 !important;
+  width: 16px;
+  height: 22px;
+  margin-top: 0 !important;
+}
+html[data-bytm-wavy] canvas.bytm-wave {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+/* Legacy Polymer slider */
+html[data-bytm-wavy] ytmusic-player-bar #progress-bar #sliderContainer {
+  position: relative;
+}
+html[data-bytm-wavy] ytmusic-player-bar #progress-bar :is(#primaryProgress, #secondaryProgress, #progressContainer, .slider-knob) {
+  opacity: 0 !important;
+}
+html[data-bytm-wavy] ytmusic-player-bar #progress-bar canvas.bytm-wave {
+  top: -9px;
+  height: calc(100% + 18px);
+}
+
+/* ---------------------------------------------------------------------------
+   15. Volume indicator (scroll-to-change volume)
+   --------------------------------------------------------------------------- */
+.bytm-volume-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 118px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  min-width: 180px;
+  border-radius: var(--md-shape-full);
+  background: var(--md-surface-container-highest);
+  color: var(--md-on-surface);
+  box-shadow: 0 6px 24px rgb(0 0 0 / 0.35);
+  font: 600 14px/1 "Google Sans Flex", Roboto, sans-serif;
+  font-variant-numeric: tabular-nums;
+  opacity: 0;
+  transform: translate(-50%, 12px) scale(0.9);
+  pointer-events: none;
+  transition:
+    opacity var(--md-effects-dur) var(--md-effects),
+    transform var(--md-spring-fast-dur) var(--md-spring-fast);
+}
+.bytm-volume-toast.bytm-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.bytm-volume-track {
+  flex: 1;
+  height: 8px;
+  border-radius: var(--md-shape-full);
+  background: var(--md-secondary-container);
+  overflow: hidden;
+}
+.bytm-volume-level {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--md-primary);
+  transition: width var(--md-spring-fast-dur) var(--md-spring-fast);
+}
+.bytm-volume-label {
+  min-width: 3.5em;
+  text-align: end;
+}
+
+/* ---------------------------------------------------------------------------
+   16. Performance: skip rendering work for off-screen content
+   --------------------------------------------------------------------------- */
+html[data-bytm-lazy] ytmusic-section-list-renderer > #contents > :is(
+  ytmusic-carousel-shelf-renderer,
+  ytmusic-shelf-renderer,
+  ytmusic-grid-renderer,
+  ytmusic-description-shelf-renderer
+) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 420px;
+}
+html[data-bytm-lazy] ytmusic-player-queue-item {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 56px;
+}
+html[data-bytm-lazy] :is(ytmusic-playlist-shelf-renderer, ytmusic-shelf-renderer, ytmusic-section-list-renderer) #contents > ytmusic-responsive-list-item-renderer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 56px;
+}
+/* Library / "See all" grids can hold hundreds of cards. */
+html[data-bytm-lazy] ytmusic-grid-renderer #items > ytmusic-two-row-item-renderer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 280px;
+}
+/* The player page is fully laid out even while it's closed; skip it. */
+html[data-bytm-lazy] ytmusic-app-layout[player-ui-state="MINIPLAYER"] ytmusic-player-page #side-panel,
+html[data-bytm-lazy] ytmusic-app-layout[player-ui-state="INACTIVE"] ytmusic-player-page #side-panel {
+  content-visibility: hidden;
+}
+
+/* Lightweight effects: YTM puts a live backdrop-filter blur behind every tonal
+   button (dozens per page) and runs JS-animated ripples on click. Our theme
+   paints those surfaces solid anyway. */
+html[data-bytm-light] :is(.ytSpecButtonShapeNextHost, .yt-spec-button-shape-next, ytmusic-nav-bar, #nav-bar-background, tp-yt-iron-dropdown, ytmusic-menu-popup-renderer, .ytmusicPlayerControlsHost *) {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html[data-bytm-light] tp-yt-paper-ripple {
+  display: none !important;
+}
+/* Spinners only animate while they are actually on screen. */
+html[data-bytm-light] tp-yt-paper-spinner-lite:not([active]),
+html[data-bytm-light] tp-yt-paper-spinner-lite:not([active]) * {
+  animation: none !important;
+}
+
+/* ---------------------------------------------------------------------------
+   16b. Minimal interface: strip YouTube Music down to music + controls.
+   Nothing functional is removed outright — secondary actions appear on hover.
+   --------------------------------------------------------------------------- */
+html[data-bytm-minimal] :is(
+  ytmusic-fullbleed-thumbnail-renderer,           /* giant home background */
+  ytmusic-section-list-renderer > #header ytmusic-chip-cloud-renderer, /* mood chips */
+  ytmusic-content-update-chip,                    /* "New recommendations" */
+  ytmusic-cast-button,
+  ytmusic-nav-bar .history-icon-button,
+  ytmusic-guide-signin-promo-renderer,
+  ytmusic-guide-section-renderer #buttons,         /* "New playlist" */
+  ytmusic-guide-section-renderer h3,
+  ytmusic-guide-section-renderer #divider,
+  ytmusic-carousel-shelf-basic-header-renderer .strapline,
+  ytmusic-two-row-item-renderer .third-title,
+  ytmusic-inline-badge-renderer,                  /* "E" badges */
+  ytmusic-queue-header-renderer,                  /* "Playing from … / Save" */
+  ytmusic-player-queue #steering-chips,
+  ytmusic-tab-renderer > div > .autoplay,
+  dislike-button-view-model,
+  ytmusic-like-button-renderer #button-shape-dislike,
+  ytmusic-player-page tp-yt-paper-tab:nth-of-type(n + 3)  /* Comments, Related */
+) {
+  display: none !important;
+}
+/* Shelf arrows / "More", and row actions: only on hover. */
+html[data-bytm-minimal] ytmusic-carousel-shelf-renderer :is(.button-group, #more-content, .more-button) {
+  opacity: 0;
+  transition: opacity var(--md-effects-dur) var(--md-effects);
+}
+html[data-bytm-minimal] ytmusic-carousel-shelf-renderer:hover :is(.button-group, #more-content, .more-button),
+html[data-bytm-minimal] ytmusic-carousel-shelf-renderer :is(.button-group, #more-content, .more-button):focus-within {
+  opacity: 1;
+}
+html[data-bytm-minimal] :is(ytmusic-responsive-list-item-renderer, ytmusic-player-queue-item):not(:hover):not(:focus-within) :is(ytmusic-menu-renderer, ytmusic-like-button-renderer) {
+  visibility: hidden;
+}
+/* Calmer home: more air between shelves, no header gradient. */
+html[data-bytm-minimal] ytmusic-section-list-renderer > #contents > * {
+  margin-block-end: 24px;
+}
+/* .background-gradient wraps all browse content — only drop its gradient. */
+html[data-bytm-minimal] ytmusic-browse-response .background-gradient {
+  background: none !important;
+}
+
+/* ---------------------------------------------------------------------------
+   17. Hide Premium upsells
+   --------------------------------------------------------------------------- */
+html[data-bytm-hide-upsells] :is(
+  ytmusic-mealbar-promo-renderer,
+  ytmusic-statement-banner-renderer,
+  ytmusic-guide-entry-renderer:has(a[href*="music_premium"]),
+  ytmusic-guide-entry-renderer:has(a[href*="/premium"]),
+  tp-yt-paper-dialog:has(ytmusic-mealbar-promo-renderer),
+  tp-yt-iron-dropdown:has(ytmusic-mealbar-promo-renderer)
+) {
+  display: none !important;
+}
+
+/* ---------------------------------------------------------------------------
+   18. Synced lyrics (lyrics.js) inside YTM's Lyrics tab
+   --------------------------------------------------------------------------- */
+.bytm-lyrics {
+  display: none;
+}
+/* While we're loading or showing lyrics, hide YTM's own tab content. */
+html[data-bytm-lyrics] #tab-renderer[data-bytm-lyrics-tab]:is(
+  [data-bytm-lyrics-state="loading"],
+  [data-bytm-lyrics-state="synced"],
+  [data-bytm-lyrics-state="plain"]
+) > :not(.bytm-lyrics) {
+  display: none !important;
+}
+html[data-bytm-lyrics] #tab-renderer[data-bytm-lyrics-tab]:is(
+  [data-bytm-lyrics-state="loading"],
+  [data-bytm-lyrics-state="synced"],
+  [data-bytm-lyrics-state="plain"]
+) > .bytm-lyrics {
+  display: block;
+}
+.bytm-lyrics {
+  padding: 20px 4px 42vh;
+  font-family: "Google Sans Flex", var(--ytmusic-display-text-font-family, Roboto), sans-serif;
+}
+.bytm-lyrics-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.bytm-line {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: var(--md-shape-lg-inc);
+  background: transparent;
+  color: var(--md-on-surface);
+  font-family: inherit;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.28;
+  font-variation-settings: "ROND" 100, "opsz" 32;
+  letter-spacing: -0.01em;
+  text-align: start;
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+  opacity: 0.34;
+  transform: scale(0.95);
+  transform-origin: left center;
+  cursor: pointer;
+  transition:
+    opacity 320ms var(--md-effects),
+    color 320ms var(--md-effects),
+    background-color 150ms var(--md-effects),
+    transform var(--md-spring-default-dur) var(--md-spring-default);
+}
+.bytm-line.bytm-past {
+  opacity: 0.26;
+}
+.bytm-line:hover {
+  opacity: 0.75;
+  background: color-mix(in oklab, var(--md-on-surface) 6%, transparent);
+}
+.bytm-line:active {
+  transform: scale(0.93);
+}
+.bytm-line.bytm-active {
+  opacity: 1;
+  transform: none;
+  color: var(--md-primary);
+}
+.bytm-line:focus-visible {
+  outline: 3px solid var(--md-primary);
+  outline-offset: -3px;
+}
+
+/* Karaoke: a soft-edged fill sweeps through the letters of each word as it's
+   sung. lyrics.js writes --wp (0..1) per word on the active line only. */
+/* Un-sung words on the active line stay clearly brighter than other lines. */
+.bytm-lyrics[data-karaoke] .bytm-line.bytm-active:not(.bytm-interlude) {
+  color: color-mix(in oklab, var(--md-on-surface) 68%, transparent);
+}
+.bytm-lyrics[data-karaoke] .bytm-line.bytm-active .bytm-w {
+  background-image: linear-gradient(
+    90deg,
+    var(--md-primary) calc(var(--wp, 0) * 125% - 25%),
+    color-mix(in oklab, var(--md-on-surface) 68%, transparent) calc(var(--wp, 0) * 125%)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Instrumental breaks: three dots that light up as the break progresses. */
+.bytm-interlude {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 0;
+  padding-block: 0;
+  overflow: hidden;
+  cursor: default;
+  transition:
+    height var(--md-spring-default-dur) var(--md-spring-default),
+    opacity 320ms var(--md-effects);
+}
+.bytm-interlude:hover {
+  background: none;
+}
+.bytm-interlude.bytm-active {
+  height: 52px;
+}
+.bytm-interlude span {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--md-primary);
+}
+.bytm-interlude span:nth-child(1) { opacity: clamp(0.25, calc(var(--p, 0) * 3), 1); }
+.bytm-interlude span:nth-child(2) { opacity: clamp(0.25, calc((var(--p, 0) - 0.333) * 3), 1); }
+.bytm-interlude span:nth-child(3) { opacity: clamp(0.25, calc((var(--p, 0) - 0.667) * 3), 1); }
+.bytm-interlude.bytm-active span {
+  animation: bytm-breathe 2.2s ease-in-out infinite;
+}
+.bytm-interlude.bytm-active span:nth-child(2) { animation-delay: 0.18s; }
+.bytm-interlude.bytm-active span:nth-child(3) { animation-delay: 0.36s; }
+@keyframes bytm-breathe {
+  50% { transform: scale(1.25); }
+}
+
+/* Unsynced lyrics: calm, readable, not clickable. */
+.bytm-lyrics[data-kind="plain"] .bytm-line {
+  padding: 3px 14px;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.5;
+  opacity: 0.92;
+  transform: none;
+  cursor: text;
+  user-select: text;
+}
+.bytm-lyrics[data-kind="plain"] .bytm-line:hover {
+  background: none;
+}
+
+.bytm-lyrics-footer {
+  margin: 28px 14px 0;
+  color: var(--md-on-surface-variant);
+  font-size: 13px;
+}
+.bytm-lyrics-footer a {
+  color: var(--md-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+.bytm-lyrics-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Fullscreen lyrics: no artwork/video, just huge lyrics over a blurred-art
+   backdrop, with the player controls always visible. */
+html[data-bytm-fs-lyrics] ytmusic-player-page[player-fullscreened] ytmusic-player#player,
+html[data-bytm-fs-lyrics] ytmusic-player-page[player-fullscreened] .av,
+html[data-bytm-fs-lyrics] ytmusic-app-layout[player-fullscreened] .fullscreen-overlay {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+/* YTM leaves the player page offset (nav bar / guide) with will-change:
+   transform, which would trap our fixed layers inside it. Pin it to the screen. */
+html[data-bytm-fs-lyrics] ytmusic-player-page[player-fullscreened] {
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+html[data-bytm-fs-lyrics] ytmusic-player-page[player-fullscreened] #side-panel {
+  display: flex !important;
+  flex-direction: column;
+  position: fixed !important;
+  inset: 0 0 104px 0 !important;
+  width: auto !important;
+  max-width: none !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 3 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+html[data-bytm-fs-lyrics] ytmusic-player-page[player-fullscreened] #side-panel tp-yt-paper-tabs {
+  display: none !important;
+}
+html[data-bytm-fs-lyrics] ytmusic-player-page[player-fullscreened] #tab-renderer {
+  flex: 1;
+  height: 100% !important;
+  max-height: none !important;
+  -webkit-mask-image: linear-gradient(transparent, #000 14%, #000 82%, transparent);
+  mask-image: linear-gradient(transparent, #000 14%, #000 82%, transparent);
+}
+html[data-bytm-fs-lyrics] ytmusic-player-page[player-fullscreened] .bytm-lyrics {
+  max-width: min(1280px, 88vw);
+  margin: 0 auto;
+  padding: 36vh 0 55vh;
+}
+html[data-bytm-fs-lyrics] ytmusic-player-page[player-fullscreened] .bytm-line {
+  font-size: clamp(34px, 4.6vw, 84px);
+  line-height: 1.14;
+  padding: 12px 28px;
+  border-radius: var(--md-shape-xl);
+  font-variation-settings: "ROND" 100, "opsz" 72;
+}
+html[data-bytm-fs-lyrics] ytmusic-player-page[player-fullscreened] .bytm-lyrics[data-kind="plain"] .bytm-line {
+  font-size: clamp(24px, 2.6vw, 42px);
+}
+/* No vertical padding on breaks: with it, the collapsed (height: 0) dots of
+   every inactive break peeked out between lines. */
+html[data-bytm-fs-lyrics] ytmusic-player-page[player-fullscreened] .bytm-interlude {
+  padding-block: 0;
+}
+html[data-bytm-fs-lyrics] ytmusic-player-page[player-fullscreened] .bytm-interlude.bytm-active {
+  height: clamp(56px, 6vw, 96px);
+}
+html[data-bytm-fs-lyrics] ytmusic-player-page[player-fullscreened] .bytm-interlude span {
+  width: clamp(14px, 1.3vw, 22px);
+  height: clamp(14px, 1.3vw, 22px);
+}
+html[data-bytm-fs-lyrics] ytmusic-app-layout[player-fullscreened] > [slot="player-bar"] {
+  opacity: 1 !important;
+}
+html[data-bytm-fs-lyrics] ytmusic-player-page[player-fullscreened]::before {
+  content: "";
+  display: block !important;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--bytm-backdrop, none);
+  background-size: 100% 100%;
+  opacity: 0.85;
+  pointer-events: none;
+}
+html[data-bytm-fs-lyrics] ytmusic-player-page[player-fullscreened]::after {
+  content: "";
+  display: block !important;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: color-mix(in oklab, var(--md-surface) 76%, transparent);
+  pointer-events: none;
+}
+html[data-bytm-fs-lyrics] ytmusic-player-page[player-fullscreened] #tab-renderer::-webkit-scrollbar {
+  display: none;
+}
+html[data-bytm-fs-lyrics] ytmusic-player-page[player-fullscreened] .bytm-line:not(.bytm-active):not(:hover) {
+  opacity: 0.3;
+}
+
+/* M3 Expressive loading indicator: a spinning, pulsing cookie. */
+.bytm-lyrics-loader {
+  display: none;
+  justify-content: center;
+  padding-top: 96px;
+}
+.bytm-lyrics[data-state="loading"] .bytm-lyrics-loader {
+  display: flex;
+}
+.bytm-lyrics[data-state="loading"] :is(.bytm-lyrics-lines, .bytm-lyrics-footer) {
+  display: none;
+}
+.bytm-lyrics-loader svg {
+  width: 52px;
+  height: 52px;
+  fill: var(--md-primary);
+  animation: bytm-spin 1.6s linear infinite;
+}
+.bytm-lyrics-loader path {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: bytm-pulse 0.8s ease-in-out infinite alternate;
+}
+@keyframes bytm-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes bytm-pulse {
+  from { transform: scale(0.72); }
+  to { transform: scale(1); }
+}
+
+/* ---------------------------------------------------------------------------
+   19. Respect reduced-motion preferences
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --md-spring-fast: ease;
+    --md-spring-default: ease;
+    --md-spring-fast-dur: 1ms;
+    --md-spring-default-dur: 1ms;
+  }
+  html[data-bytm-theme] ytmusic-player-page ytmusic-player#player {
+    transform: none !important;
+  }
+  .bytm-interlude.bytm-active span,
+  .bytm-lyrics-loader :is(svg, path) {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Brand mark in the top bar (main.js: ensureBrand), replacing the YTM logo.
+   --------------------------------------------------------------------------- */
+.bytm-brand {
+  display: none;
+}
+html[data-bytm-theme] ytmusic-logo:has(.bytm-brand) picture {
+  display: none !important;
+}
+html[data-bytm-theme] .bytm-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  white-space: nowrap;
+}
+html[data-bytm-theme] .bytm-brand svg {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  transition: transform var(--md-spring-default-dur) var(--md-spring-default);
+}
+html[data-bytm-theme] .bytm-brand-shape {
+  fill: rgb(242 22 18);
+}
+html[data-bytm-theme] ytmusic-logo a:hover .bytm-brand svg {
+  transform: rotate(40deg);
+}
+html[data-bytm-theme] .bytm-brand-text {
+  font: 800 19px/1 "Google Sans Flex", "Google Sans", Roboto, sans-serif;
+  font-variation-settings: "ROND" 100, "opsz" 24;
+  letter-spacing: -0.02em;
+  color: var(--md-on-surface);
+}
+html[data-bytm-theme] .bytm-brand-text b {
+  font-weight: 800;
+  color: rgb(242 22 18);
+}
+/* Narrow windows: just the mark. */
+@media (max-width: 760px) {
+  html[data-bytm-theme] .bytm-brand-text {
+    display: none;
+  }
+}
